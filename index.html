@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khayal 2025 - VPKMMHSS Puthur Arts Day</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8e44ad;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --gold: #f1c40f;
+            --light: #f9f9f9;
+            --dark: #2c3e50;
+            --day1-color: #9b59b6;
+            --day2-color: #3498db;
+            --malayalam-font: 'Noto Sans Malayalam', sans-serif;
+            --english-font: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            font-family: var(--english-font);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,202.7C672,203,768,181,864,170.7C960,160,1056,160,1152,170.7C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-family: var(--malayalam-font);
+            font-weight: 700;
+        }
+
+        .school-name {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            font-family: var(--malayalam-font);
+        }
+
+        .school-name-en {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .day-selector {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            gap: 1rem;
+        }
+
+        .day-btn {
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .day-btn.active {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .day1-btn {
+            background: var(--day1-color);
+            color: white;
+        }
+
+        .day2-btn {
+            background: var(--day2-color);
+            color: white;
+        }
+
+        .day-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .date {
+            font-size: 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            margin-top: 0.5rem;
+            backdrop-filter: blur(5px);
+            font-family: var(--malayalam-font);
+        }
+
+        .intro {
+            text-align: center;
+            padding: 3rem 1rem;
+            background-color: white;
+            margin: 2rem auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            max-width: 900px;
+        }
+
+        .intro h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            font-family: var(--malayalam-font);
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .day-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .day-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .venues {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .venue-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardAppear 0.5s ease forwards;
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .venue-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .venue-header {
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day1 .venue-header {
+            background: linear-gradient(to right, var(--day1-color), #8e44ad);
+        }
+
+        .day2 .venue-header {
+            background: linear-gradient(to right, var(--day2-color), #2980b9);
+        }
+
+        .venue-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gold);
+        }
+
+        .venue-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-family: var(--malayalam-font);
+            font-weight: 600;
+        }
+
+        .venue-name {
+            font-size: 1.2rem;
+            font-family: var(--malayalam-font);
+            opacity: 0.9;
+        }
+
+        .program-list {
+            padding: 1.5rem;
+        }
+
+        .program-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .program-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .program-item:last-child {
+            border-bottom: none;
+        }
+
+        .program-category {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 1rem;
+            min-width: 60px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .program-name {
+            font-weight: 500;
+            flex: 1;
+            font-family: var(--malayalam-font);
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--gold);
+            font-family: var(--malayalam-font);
+        }
+
+        .footer-location {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-family: var(--malayalam-font);
+        }
+
+        .footer-date {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-family: var(--malayalam-font);
+        }
+
+        .footer-tagline {
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .school-name {
+                font-size: 1.4rem;
+            }
+            
+            .date {
+                font-size: 1.2rem;
+            }
+            
+            .venues {
+                grid-template-columns: 1fr;
+            }
+            
+            .venue-header h3 {
+                font-size: 1.6rem;
+            }
+            
+            .day-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .day-btn {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>ഖയാൽ 2025</h1>
+                <div class="school-name">വി.പി.കെ.എം.എം.എച്ച്.എസ്.എസ്. പുതൂർ</div>
+                <div class="school-name-en">VPKMMHSS PUTHUR, PALLIKKAL</div>
+                
+                <div class="day-selector">
+                    <button class="day-btn day1-btn active" data-day="day1">
+                        <i class="fas fa-calendar-day"></i>
+                        ദിവസം 1 - ഒക്ടോബർ 7, ബുധനാഴ്ച
+                    </button>
+                    <button class="day-btn day2-btn" data-day="day2">
+                        <i class="fas fa-calendar-day"></i>
+                        ദിവസം 2 - ഒക്ടോബർ 9, വ്യാഴം
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="intro">
+            <h2>കലാപ്രതിഭകളുടെ ഉത്സവം</h2>
+            <p>വി.പി.കെ.എം.എം.എച്ച്.എസ്.എസ്. പുതൂരിലെ വാർഷിക കലോത്സവമായ ഖയാൽ 2025-ലേക്ക് സ്വാഗതം. അഞ്ച് വേദികളിലായി നടക്കുന്ന വർണ്ണാഭമായ പ്രകടനങ്ങൾ, സർജ്ജനാത്മകമായ പ്രകടനങ്ങൾ, സാംസ്കാരിക പ്രദർശനങ്ങൾ എന്നിവയുമായി നിറഞ്ഞ രണ്ട് ദിവസം അനുഭവിക്കൂ. ഞങ്ങളുടെ വിദ്യാർത്ഥികളുടെ കലാപ്രതിഭകൾ ആഘോഷിക്കാൻ ഞങ്ങളോടൊപ്പം ചേരൂ!</p>
+        </section>
+
+        <!-- Day 1 Content -->
+        <section id="day1" class="day-content active">
+            <div class="venues day1">
+                <!-- വേദി 1 -->
+                <div class="venue-card" style="animation-delay: 0.1s">
+                    <div class="venue-header">
+                        <h3>വേദി 1</h3>
+                        <div class="venue-name">വേദി 1</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">ഗസൽ</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS (B)</span>
+                            <span class="program-name">മാപ്പിളപ്പാട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">ദഫ് മുട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">വട്ടപ്പാട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">വട്ടപ്പാട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">ഒപ്പന</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">ഒപ്പന</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">തിരുവാതിരക്കളി</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">തിരുവാതിരക്കളി</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">മൂകാഭിനയം</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- വേദി 2 -->
+                <div class="venue-card" style="animation-delay: 0.2s">
+                    <div class="venue-header">
+                        <h3>വേദി 2</h3>
+                        <div class="venue-name">ഖവാലി</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">HS (B)</span>
+                            <span class="program-name">ലളിതഗാനം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS (B)</span>
+                            <span class="program-name">ലളിതഗാനം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS (G)</span>
+                            <span class="program-name">ലളിതഗാനം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS (G)</span>
+                            <span class="program-name">ലളിതഗാനം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">മാർഗംകളി</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">അറബനമുട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">അറബനമുട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">ഇംഗ്ലീഷ് സ്കിറ്റ്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">ഇംഗ്ലീഷ് സ്കിറ്റ്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">പണിയ നൃത്തം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">ഇരുള നൃത്തം</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- വേദി 3 -->
+                <div class="venue-card" style="animation-delay: 0.3s">
+                    <div class="venue-header">
+                        <h3>വേദി 3</h3>
+                        <div class="venue-name">മജ്ലിസ്</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">ALL</span>
+                            <span class="program-name">അറബി കലോത്സവം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">പദ്യപാരായണം (അറബി)</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS (G)</span>
+                            <span class="program-name">മാപ്പിളപ്പാട്ട്</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- വേദി 4 -->
+                <div class="venue-card" style="animation-delay: 0.4s">
+                    <div class="venue-header">
+                        <h3>വേദി 4</h3>
+                        <div class="venue-name">മെഹ്ഫിൽ</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">പദ്യപാരായണം (മലയാളം)</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">പദ്യപാരായണം (ഇംഗ്ലീഷ്)</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">പദ്യപാരായണം (ഹിന്ദി)</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">പദ്യപാരായണം (ഉറുദു)</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">കഥാപ്രസംഗം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">കഥാപ്രസംഗം</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- വേദി 5 -->
+                <div class="venue-card" style="animation-delay: 0.5s">
+                    <div class="venue-header">
+                        <h3>വേദി 5</h3>
+                        <div class="venue-name">ഷഹനായ്</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">ALL</span>
+                            <span class="program-name">സംസ്കൃത കലോത്സവം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">പദ്യപാരായണം (തമിഴ്)</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">പദ്യപാരായണം (കന്നട)</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">പദ്യപാരായണം (സംസ്കൃതം)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 2 Content -->
+        <section id="day2" class="day-content">
+            <div class="venues day2">
+                <!-- വേദി 1 -->
+                <div class="venue-card" style="animation-delay: 0.1s">
+                    <div class="venue-header">
+                        <h3>വേദി 1</h3>
+                        <div class="venue-name">വേദി 1</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">ഗസൽ</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS (B)</span>
+                            <span class="program-name">മാപ്പിളപ്പാട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS (G)</span>
+                            <span class="program-name">ദഫ് മുട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">ഭരതനാട്യം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">ഭരതനാട്യം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">കുച്ചുപ്പുടി</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">നാടോടി നൃത്തം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">നാടോടി നൃത്തം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">സംഘനൃത്തം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">സംഘനൃത്തം</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- വേദി 2 -->
+                <div class="venue-card" style="animation-delay: 0.2s">
+                    <div class="venue-header">
+                        <h3>വേദി 2</h3>
+                        <div class="venue-name">ഖവാലി</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">വഞ്ചിപ്പാട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">വഞ്ചിപ്പാട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">നാടൻ പാട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">നാടൻ പാട്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">മാർഗംകളി</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">നാടകം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">നാടകം</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- വേദി 3 -->
+                <div class="venue-card" style="animation-delay: 0.3s">
+                    <div class="venue-header">
+                        <h3>വേദി 3</h3>
+                        <div class="venue-name">മജ്ലിസ്</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">HS (B)</span>
+                            <span class="program-name">മോണോ ആക്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS (G)</span>
+                            <span class="program-name">മോണോ ആക്ട്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">മിമിക്രി</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HSS</span>
+                            <span class="program-name">മിമിക്രി</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">ALL</span>
+                            <span class="program-name">ഉപകരണ സംഗീതം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">തബല</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">വയലിൻ</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">ചെണ്ട</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">ശാസ്ത്രീയ സംഗീതം</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- വേദി 4 -->
+                <div class="venue-card" style="animation-delay: 0.4s">
+                    <div class="venue-header">
+                        <h3>വേദി 4</h3>
+                        <div class="venue-name">മെഹ്ഫിൽ</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">ഉറുദു ഗസൽ</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">ഉറുദു സംഘഗാനം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">സംഘഗാനം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS&HSS</span>
+                            <span class="program-name">ദേശഭക്തിഗാനം</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- വേദി 5 -->
+                <div class="venue-card" style="animation-delay: 0.5s">
+                    <div class="venue-header">
+                        <h3>വേദി 5</h3>
+                        <div class="venue-name">ഷഹനായ്</div>
+                    </div>
+                    <div class="program-list">
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">പ്രസംഗം മലയാളം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">പ്രസംഗം ഇംഗ്ലീഷ്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">പ്രസംഗം ഹിന്ദി</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">പ്രസംഗം ഉറുദു</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">പ്രസംഗം തമിഴ്</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">പ്രസംഗം കന്നട</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">ALL</span>
+                            <span class="program-name">അറബി കലോത്സവം</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">പ്രസംഗം അറബി</span>
+                        </div>
+                        <div class="program-item">
+                            <span class="program-category">HS</span>
+                            <span class="program-name">സംഭാഷണം അറബി</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">ഖയാൽ 2025</div>
+                <div class="footer-location">വി.പി.കെ.എം.എം.എച്ച്.എസ്.എസ്. പുതൂർ, പള്ളിക്കൽ</div>
+                <div class="footer-date">ഒക്ടോബർ 7 & 9, 2025</div>
+                <p class="footer-tagline">കലയും സംസ്കാരവും ആഘോഷിക്കുന്നു</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dayButtons = document.querySelectorAll('.day-btn');
+            const dayContents = document.querySelectorAll('.day-content');
+            
+            dayButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetDay = this.getAttribute('data-day');
+                    
+                    // Update active button
+                    dayButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target day content
+                    dayContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetDay) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -6,6 +6,8 @@
     <title>Khayal 2025 - VPKMMHSS Puthur Arts Day</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -127,6 +129,33 @@
         .day-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .pdf-btn-container {
+            text-align: center;
+            margin: 1rem 0 2rem 0;
+        }
+
+        .pdf-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pdf-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .date {
@@ -326,6 +355,121 @@
             opacity: 0.8;
         }
 
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* PDF Template Styles */
+        .pdf-template {
+            position: fixed;
+            top: -10000px;
+            left: -10000px;
+            width: 794px; /* A4 width in pixels */
+            min-height: 1123px; /* A4 height in pixels */
+            background: white;
+            padding: 40px;
+            font-family: var(--malayalam-font);
+            box-sizing: border-box;
+        }
+
+        .pdf-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 20px;
+        }
+
+        .pdf-title {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .pdf-subtitle {
+            font-size: 18px;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .pdf-day-title {
+            font-size: 24px;
+            color: var(--secondary);
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .pdf-venue {
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+
+        .pdf-venue-header {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .pdf-venue-name {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .pdf-program-item {
+            display: flex;
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .pdf-program-category {
+            background: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            min-width: 70px;
+            text-align: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .pdf-program-name {
+            flex: 1;
+            font-size: 14px;
+            padding-top: 2px;
+        }
+
+        .pdf-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #666;
+            font-size: 12px;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.8rem;
@@ -355,6 +499,11 @@
             .day-btn {
                 width: 80%;
             }
+
+            .pdf-template {
+                width: 100%;
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -363,7 +512,7 @@
         <div class="container">
             <div class="header-content">
                 <h1>ഖയാൽ 2025</h1>
-                    <div class="school-name">വി.പി.കെ.എം.എം.എച്ച്.എസ്.എസ്. പുത്തൂര്‍</div>
+                <div class="school-name">വി.പി.കെ.എം.എം.എച്ച്.എസ്.എസ്. പുത്തൂർ</div>
                 <div class="school-name-en">VPKMMHSS PUTHUR, PALLIKKAL</div>
                 
                 <div class="day-selector">
@@ -388,6 +537,12 @@
 
         <!-- Day 1 Content -->
         <section id="day1" class="day-content active">
+            <div class="pdf-btn-container">
+                <button class="pdf-btn" id="pdf-day1">
+                    <i class="fas fa-file-pdf"></i>
+                    ദിവസം 1 പ്രോഗ്രാം PDF ഡൗൺലോഡ് ചെയ്യുക
+                </button>
+            </div>
             <div class="venues day1">
                 <!-- വേദി 1 -->
                 <div class="venue-card" style="animation-delay: 0.1s">
@@ -579,6 +734,12 @@
 
         <!-- Day 2 Content -->
         <section id="day2" class="day-content">
+            <div class="pdf-btn-container">
+                <button class="pdf-btn" id="pdf-day2">
+                    <i class="fas fa-file-pdf"></i>
+                    ദിവസം 2 പ്രോഗ്രാം PDF ഡൗൺലോഡ് ചെയ്യുക
+                </button>
+            </div>
             <div class="venues day2">
                 <!-- വേദി 1 -->
                 <div class="venue-card" style="animation-delay: 0.1s">
@@ -800,7 +961,14 @@
         </div>
     </footer>
 
+    <!-- PDF Template (hidden) -->
+    <div id="pdf-template" class="pdf-template"></div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
     <script>
+        // Day switching functionality
         document.addEventListener('DOMContentLoaded', function() {
             const dayButtons = document.querySelectorAll('.day-btn');
             const dayContents = document.querySelectorAll('.day-content');
@@ -822,8 +990,131 @@
                     });
                 });
             });
+
+            const { jsPDF } = window.jspdf;
+
+            // Function to show toast notification
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+
+            // Function to create PDF template
+            function createPDFTemplate(dayNumber) {
+                const template = document.getElementById('pdf-template');
+                const dayContent = document.getElementById(`day${dayNumber}`);
+                const dayTitle = dayNumber === 1 ? 
+                    'ദിവസം 1 - ഒക്ടോബർ 7, ബുധനാഴ്ച' : 
+                    'ദിവസം 2 - ഒക്ടോബർ 9, വ്യാഴം';
+                
+                // Clear template
+                template.innerHTML = '';
+
+                // Create header
+                const header = document.createElement('div');
+                header.className = 'pdf-header';
+                header.innerHTML = `
+                    <div class="pdf-title">ഖയാൽ 2025</div>
+                    <div class="pdf-subtitle">വി.പി.കെ.എം.എം.എച്ച്.എസ്.എസ്. പുത്തൂര്‍, പള്ളിക്കൽ</div>
+                `;
+                template.appendChild(header);
+
+                // Create day title
+                const dayTitleEl = document.createElement('div');
+                dayTitleEl.className = 'pdf-day-title';
+                dayTitleEl.textContent = dayTitle;
+                template.appendChild(dayTitleEl);
+
+                // Get all venue cards
+                const venueCards = dayContent.querySelectorAll('.venue-card');
+                
+                // Create venue sections
+                venueCards.forEach(card => {
+                    const venueHeader = card.querySelector('.venue-header h3').textContent;
+                    const venueName = card.querySelector('.venue-name').textContent;
+                    const programItems = card.querySelectorAll('.program-item');
+                    
+                    const venueSection = document.createElement('div');
+                    venueSection.className = 'pdf-venue';
+                    
+                    const venueHeaderEl = document.createElement('div');
+                    venueHeaderEl.className = 'pdf-venue-header';
+                    venueHeaderEl.innerHTML = `<div class="pdf-venue-name">${venueHeader} - ${venueName}</div>`;
+                    venueSection.appendChild(venueHeaderEl);
+                    
+                    programItems.forEach(item => {
+                        const category = item.querySelector('.program-category').textContent;
+                        const program = item.querySelector('.program-name').textContent;
+                        
+                        const programItem = document.createElement('div');
+                        programItem.className = 'pdf-program-item';
+                        programItem.innerHTML = `
+                            <div class="pdf-program-category">${category}</div>
+                            <div class="pdf-program-name">${program}</div>
+                        `;
+                        venueSection.appendChild(programItem);
+                    });
+                    
+                    template.appendChild(venueSection);
+                });
+
+                // Add footer
+                const footer = document.createElement('div');
+                footer.className = 'pdf-footer';
+                footer.innerHTML = 'ഖയാൽ 2025 - വി.പി.കെ.എം.എം.എച്ച്.എസ്.എസ്. പുത്തൂര്‍';
+                template.appendChild(footer);
+
+                return template;
+            }
+
+            // Function to generate PDF
+            async function generatePDF(dayNumber) {
+                showToast(`PDF ഉണ്ടാക്കുന്നു... ദിവസം ${dayNumber}`);
+                
+                try {
+                    // Create PDF template
+                    const template = createPDFTemplate(dayNumber);
+                    
+                    // Use html2canvas to capture the template as image
+                    const canvas = await html2canvas(template, {
+                        scale: 2, // Higher quality
+                        useCORS: true,
+                        logging: false
+                    });
+                    
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                    
+                    // Create PDF
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    
+                    // Calculate image dimensions to fit A4
+                    const imgWidth = canvas.width;
+                    const imgHeight = canvas.height;
+                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                    const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                    const imgY = 0;
+                    
+                    pdf.addImage(imgData, 'JPEG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                    pdf.save(`Khayal-2025-Day-${dayNumber}-Program.pdf`);
+                    
+                    showToast(`PDF ഡൗൺലോഡ് ചെയ്തു! ദിവസം ${dayNumber}`);
+                } catch (error) {
+                    console.error('PDF generation error:', error);
+                    showToast('PDF ഉണ്ടാക്കുന്നതിൽ പ്രശ്നമുണ്ട്. വീണ്ടും ശ്രമിക്കുക.');
+                }
+            }
+
+            // Add event listeners to PDF buttons
+            document.getElementById('pdf-day1').addEventListener('click', () => generatePDF(1));
+            document.getElementById('pdf-day2').addEventListener('click', () => generatePDF(2));
         });
     </script>
 </body>
-
 </html>
